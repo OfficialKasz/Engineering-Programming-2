@@ -1,0 +1,48 @@
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
+
+int setDisks(int x);
+void move(int start, int goal);
+void TOH(int n, int start, int goal, int temp);
+
+int count=0;
+
+int main(){
+	int inDisk;
+	int Disks;
+	
+	cout<<"Input amount of disks: ";
+	cin>>inDisk;
+	Disks=setDisks(inDisk);
+	TOH(Disks, 1, 3, 2);
+}
+	
+int setDisks(int x){
+	if(x>0){
+	int Disks=x;
+	return Disks;
+	}
+	else{
+		cout<<"Need to be a positive amount of Disks"<<endl;
+	}
+}
+
+void move(int start, int goal){
+	cout<<"Move disk from Tower "<<start<<" to Tower "<<goal<<endl;
+}	
+void TOH(int n, int start, int goal, int temp){
+	if(n==1){
+		count++;
+		move(start, goal);
+		cout<<"Took "<<count<<" Move(s)"<<endl;
+	}
+	else{
+		count++;
+		TOH(n-1, start, temp, goal);
+		move(start, goal);
+		TOH(n-1, start, goal, temp);
+	}
+	
+}
