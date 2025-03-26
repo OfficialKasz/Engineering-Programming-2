@@ -1,0 +1,251 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+using namespace std; 
+
+//Lukasz Janik
+//I have neither given or received,
+//nor have I tolerated others' use of unauthorized aid
+
+class Cootie { 
+	private: 
+		int items = 0;
+
+	public: 
+		string parts[11]={};
+		Cootie();
+		char randomPart();
+		bool winner();
+		void Move(char move);
+		bool Add(char j);
+		void contains();
+		bool remove();
+		bool Last_Part();
+};
+
+class Player1: public Cootie{
+	private:
+		string p1_bag[11]={};
+};
+
+class Player2: public Cootie{
+	private:
+		string p2_bag[11]={};
+};
+
+int main(){
+	char Player1_move, Player2_move;			//defines input variables
+	srand(time(NULL));						//function for the random command
+	Player1 *in_P1 = new Player1();		//Player1 subclass bag
+	Player2 *in_P2 = new Player2();			//Player2 subclass bag
+	
+	int number_of_games=1000000;
+	int p1_win=0;
+	int p2_win=0;
+	int added_count=0;
+	int last_leg=0;
+	int count=0;
+	for(int k=0; k<number_of_games; k++){
+		count = 0;							//variable to see how many times the function ran
+	while((in_P1->winner()==false)&&(in_P2->winner()==false)){		//continous until a winner comes about
+		count++;			//incrementing every time the loop goes through
+		in_P1->Move(Player1_move);
+		if (in_P1->winner()==true){		//checks if Player1 won
+		p1_win++;
+			if(in_P1->Last_Part()==true){
+				last_leg++;
+			}
+		}
+		in_P2->Move(Player2_move);	
+		if (in_P2->winner()==true){		//check if Player2 won
+		p2_win++;
+			if(in_P2->Last_Part()==true){
+				last_leg++;
+			}
+		}
+	}
+	added_count+=count;
+	in_P1->remove();
+	in_P2->remove();
+	}
+	int mean_count=(added_count/number_of_games);
+	cout<<"Mean rounds: "<<mean_count<<endl;
+	cout<<"Player 1 won: "<<p1_win<<" Times"<<endl;
+	cout<<"Player 2 won: "<<p2_win<<" Times"<<endl;
+	cout<<"Last Part was Leg "<<last_leg<<" times"<<endl;
+  return 0;
+}
+
+	Cootie::Cootie(){}
+	
+void Cootie::Move(char move){		//function to see if a move was made
+		char j;
+		j = randomPart();
+		Add(j);
+		contains();
+}
+
+
+char Cootie::randomPart(){
+  int randomNumber = rand() % 6;	//gets a random number
+  switch (randomNumber){			//depending on the number it calls a color
+    case 0:
+      return 'H';
+      break;
+    case 1:
+      return 'T';
+      break;
+    case 2:
+      return 'A';
+      break;
+    case 3:
+      return 'E';
+      break;
+    case 4:
+      return 'M';
+      break;
+	case 5:
+      return 'L';
+      break;
+	default:
+	  return '0';
+	  break;	
+  }	  
+}
+
+bool Cootie::Add(char j){		//function to add a part
+	//cout<<"Landed on "<<j<<endl;	
+	if(items>11){	
+		return false;
+	}
+	switch (j){			//depending on the number it calls a color
+		case 'H':
+			if(parts[0]!="Head"){
+				parts[0]="Head";
+			//	cout<<"Head was added"<<endl;
+				items++;
+				return true;
+			}
+			else
+				return false;
+		break;
+		case 'T':
+		if(parts[0]=="Head"){
+			if(parts[1]!="Thorax"){
+				parts[1]="Thorax";
+			//	cout<<"Thorax was added"<<endl;
+				items++;
+				return true;
+			}
+			else
+				return false;
+		}
+		break;
+		case 'A':
+			if(parts[0]=="Head"&&parts[1]=="Thorax"){
+				if(items>=2){
+					for(int i=2; i<=items; i++){
+						if(parts[i]=="Antenna") return false;
+						if(parts[i]=="\0"){
+							parts[i]="Antenna";
+						//	cout<<"Antenna was added"<<endl;
+							items++;
+							return true;
+						}
+					}
+				}
+			}
+			else
+				return false;
+		break;
+		case 'E':
+			if(parts[0]=="Head"&&parts[1]=="Thorax"){
+				if(items>=2){
+					for(int i=2; i<=items; i++){
+						if(parts[i]=="Eyes") return false;
+						if(parts[i]=="\0"){
+							parts[i]="Eyes";
+						//	cout<<"Eyes was added"<<endl;
+							items++;
+							return true;
+						}
+					}
+				}
+			}
+			else
+				return false;
+		break;
+		case 'M':
+			if(parts[0]=="Head"&&parts[1]=="Thorax"){
+				if(items>=2){
+					for(int i=2; i<=items; i++){
+						if(parts[i]=="Mouth") return false;
+						if(parts[i]=="\0"){
+							parts[i]="Mouth";
+						//	cout<<"Mouth was added"<<endl;
+							items++;
+							return true;
+						}
+					}
+				}
+			}
+			else
+				return false;
+		break;
+		case 'L':
+			if(parts[0]=="Head"&&parts[1]=="Thorax"){
+				int leg_count=0;
+				if(items>=2){
+					for(int i=2; i<=items; i++){
+						if(parts[i]=="Leg"){
+							leg_count++;
+						}
+						if(leg_count==6){
+							return false;
+						}
+						if(parts[i]=="\0"){
+							parts[i]="Leg";
+						//	cout<<"Leg was added"<<endl;
+							items++;
+							return true;
+						}
+					}
+				}
+			}
+			else
+				return false;
+		break;
+		default:
+			return "Oops";
+		break;
+		}
+}
+
+bool Cootie::winner(){			//function to check if someone won
+	if(items==11){
+		return true;
+	}
+	else{
+	return false;}
+}
+
+void Cootie::contains(){
+	for(int i=0; i<=items;i++){
+		//cout<<parts[i]<<" ";
+	}
+}
+
+bool Cootie::remove(){
+	for(int i=0; i<=items; i++){
+		parts[i]="\0";
+	}
+	items=0;
+	return true;
+}
+
+bool Cootie::Last_Part(){
+	if(parts[10]=="Leg"){
+		return true;
+	}
+}
