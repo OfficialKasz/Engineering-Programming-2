@@ -1,0 +1,88 @@
+/*
+Author: Lukasz Janik
+*/
+
+#include <iostream>
+using namespace std;
+
+class RegularPolygon {
+	protected: //will be inherited by derived classes.
+		float sideLength;
+		int numSides;
+	public:
+		RegularPolygon() {}
+		RegularPolygon(float newLength, int newSides){
+			sideLength=newLength; 
+			numSides=newSides;
+		}
+		
+		float getLength() {return sideLength;}  //getters
+		int getnumSides() {return numSides;}
+		void setLength(float newLength) {sideLength=newLength;}  //setters
+		void setNumSides(int newSides) {numSides=newSides;}
+		
+		//virtual float getArea() = 0; // Function will always be overridden by subclass
+		//Example 1: float getArea(){return -1;};
+		// Example 2: virtual float getArea(){return -1;};
+		virtual float getArea(){return -1;};
+		
+		
+};
+
+class Square : public RegularPolygon { //Square inherits all protected and public features of RegularPolygon
+
+	public:
+		Square() {numSides=4; sideLength=1.0;}  //default constructor for a square.
+		Square(float newLength) {numSides=4;sideLength=newLength;}
+		float getArea() {return sideLength*sideLength;}
+		//This getArea overrides the getArea function derived from Regular Polygon.
+		
+};
+
+
+class Hexagon : public RegularPolygon { 
+	public:
+		Hexagon() {sideLength=1;numSides=6;}  //default constructor for a hexagon.
+		Hexagon(float newLength) {numSides=6;sideLength=newLength;}
+		float getArea() {return 2.598*sideLength*sideLength;}
+};
+
+int main() {
+	RegularPolygon * rp1 = new RegularPolygon();
+	Square * sq1 = new Square(7);
+	Hexagon* hx1= new Hexagon(3);
+	cout << "Sq Area=" << sq1 -> getArea() << endl;
+	cout << "Hx Area=" << hx1 -> getArea() << endl;
+	cout << "RP Area=" << rp1 -> getArea() << endl;
+	
+	RegularPolygon*polyMorph1;
+	RegularPolygon*polyMorph2;
+	RegularPolygon*polyMorph3;
+	polyMorph1=new RegularPolygon();
+	polyMorph2=new Square(9);
+	polyMorph3=new Hexagon(100);
+	
+	cout << "PM1=" << polyMorph1 -> getArea() << endl;
+	cout << "PM2=" << polyMorph2 -> getArea() << endl;
+	cout << "PM3=" << polyMorph3 -> getArea() << endl;
+
+	return 0;
+}
+
+
+//super::f1();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
