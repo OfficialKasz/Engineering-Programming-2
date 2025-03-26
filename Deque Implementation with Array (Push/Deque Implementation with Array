@@ -1,0 +1,132 @@
+#include <iostream>
+
+using namespace std; 
+
+#define MAXSIZE 1000
+
+class DEQArray{
+	
+	private:
+		int elements[MAXSIZE];
+		int size;
+		int start;
+		int tail;
+		
+	public:
+		DEQArray();
+		bool pushBack(int j);
+		int popFront();
+		int popBack();
+		bool pushFront(int j);
+		int getSize();
+		bool isEmpty();
+		int Print();
+	
+};
+
+int main(){
+	DEQArray *input = new DEQArray;
+	for(int i=1;i<=10;i++){
+		input->pushFront(i);
+	}
+	input->Print();
+	for(int i=10; i<=100; i=i+10){
+		input->pushBack(i);
+	}
+	input->Print();
+	input->isEmpty();
+	for(int i=0;i<15;i++){
+		input->popFront();
+	}
+	input->Print();
+	for(int i=0;i<10;i++){
+		input->popBack();
+	}
+	input->Print();
+	input->isEmpty();
+	
+}
+
+DEQArray::DEQArray(){
+	size=0;
+	start=0;
+	tail=0;
+	
+}
+
+int DEQArray::getSize(){
+	cout<<"The size of the Queue is: "<<size<<endl;
+}
+
+bool DEQArray::isEmpty(){
+	if(size==0){
+		cout<<"The Queue is empty"<<endl;
+		return true;
+	}
+	else{
+		cout<<"The Queue is not empty"<<endl;
+		return false;
+	}
+}
+
+bool DEQArray::pushBack(int j){
+	if(size==MAXSIZE-1){
+		cout<<"Queue is full"<<endl;
+	}
+	else{
+	elements[size]=j;
+	size++;
+	}
+}
+
+bool DEQArray::pushFront(int j){
+	if(size==MAXSIZE-1){
+		cout<<"Queue is full"<<endl;
+	}
+	else{
+	for(int i=start; i>=0; i--){
+		elements[i+1]=elements[i];
+	}
+	elements[0]=j;
+	start++;
+	size++;
+	}
+}
+
+int DEQArray::popBack(){
+	if(size==0){
+		cout<<"Nothing to remove"<<endl;
+	}
+	else{
+	size--;
+	int temp=elements[size];
+	cout<<"Removed: "<<temp<<endl;
+	}
+}
+
+int DEQArray::popFront(){
+	if(size==0){
+		cout<<"Nothing to remove"<<endl;
+	}
+	else{
+	int temp=elements[0];
+	for(int i=0; i<size; i++){
+		elements[i]=elements[i+1];
+	}
+	size--;
+	cout<<"Removed: "<<temp<<endl;
+	}
+}
+
+int DEQArray::Print(){
+	if(size==0){
+	cout<<"The Queue has nothing to print"<<endl;	
+	}
+	else{
+	cout<<"The Queue is: ";
+	for(int i=0;i<size;i++){
+		cout<<elements[i]<<" ";
+	}
+	cout<<endl;
+	}
+}
