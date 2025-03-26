@@ -1,0 +1,46 @@
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
+
+class DLink {
+	private:
+		int data;
+		DLink* next;
+		DLink* prev;
+	public:
+		DLink() {next = NULL; data = 0; prev = NULL;}
+		DLink (int x) {next = NULL; data = x; prev = NULL;}
+		
+		DLink* getPrev() {return prev;}
+		int getData() {return data;}
+		DLink* getNext() {return next;}
+		
+		void setData (int x) {data = x;}
+		void setNext (DLink* nextLink) {next = nextLink;}
+		void setPrev (DLink* prevLink) {prev=prevLink;}
+};
+
+int main () {
+	DLink * one = new DLink(1);  //create four new DLink objects
+	DLink * two = new DLink(2);
+	DLink * three = new DLink(3);
+	DLink * four = new DLink(4);
+
+	one->setNext(two);
+	two->setNext(three);
+	three->setNext(four);
+	
+	four->setPrev(three);
+	three->setPrev(two);
+	two->setPrev(one);
+	
+	for(DLink* i = one; i != NULL; i=i->getNext()){
+		cout<<i->getData()<<" ";
+	}
+	cout<<endl;
+	for(DLink* i = four; i != NULL; i=i->getPrev()){
+		cout<<i->getData()<<" ";
+	}
+	return 0;
+}
