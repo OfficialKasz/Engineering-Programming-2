@@ -1,0 +1,78 @@
+//Author: Lukasz Janik
+
+#include <iostream>
+using namespace std;
+
+#define NUM_CHARS 3
+
+class ThreePrinter {
+	
+	private:
+	
+	public:
+	  void print(int x, int y);
+	  void printA(int x, int y);
+	
+};
+
+
+void ThreePrinter::print(int x, int y) {
+	
+	if(x==0) cout<<"---";
+	if(x==1) cout<<"| |";
+	if(x==2) cout<<"x x";
+	
+	cout<<" ";
+	if(x==0) cout<<"---";
+	if(x==1) cout<<"| |";
+	if(x==2) cout<<"x x";
+	
+	cout<<endl;
+	
+	if(x==0) cout<<"| |";
+	if(x==1) cout<<"|-|";
+	if(x==2) cout<<" x ";
+	
+	cout<<" ";
+	if(x==0) cout<<"| |";
+	if(x==1) cout<<"|-|";
+	if(x==2) cout<<" x ";
+	
+	cout<<endl;
+	
+	if(x==0) cout<<"---";
+	if(x==1) cout<<"| |";
+	if(x==2) cout<<"x x";
+	
+	cout<<" ";
+	if(x==0) cout<<"---";
+	if(x==1) cout<<"| |";
+	if(x==2) cout<<"x x";
+	
+	cout<<endl<<endl;
+	
+	}
+void ThreePrinter::printA( int x, int y) {
+	string line1[]={"---", "| |", "x x"};
+	string line2[]={"| |", "|-|", " x "};
+	string line3[]={"---", "| |", "x x"};
+	
+	cout<<line1[x]<<" "<<line1[y]<<endl;
+	cout<<line2[x]<<" "<<line2[y]<<endl;
+	cout<<line3[x]<<" "<<line3[y]<<endl<<endl;
+	
+	
+}
+
+int main() {
+	
+	ThreePrinter myThree;
+	
+//	myThree.print(1, 2);
+	//myThree.print(0, 1);
+	
+	myThree.printA(0,1);
+	myThree.printA(2,1);
+	
+	return 0;
+}
