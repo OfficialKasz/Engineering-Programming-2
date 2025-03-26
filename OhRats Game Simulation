@@ -1,0 +1,158 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std; 
+
+//Lukasz Janik
+//I have neither given or received,
+//nor have I tolerated others' use of unauthorized aid
+
+  
+class OhRats { 
+	private: 
+		int items = 6;
+
+	public: 
+		string colors[6]={"red", "green", "orange", "yellow", "blue", "purple"};
+		OhRats();
+		string randomColor();
+		bool winner();
+		void Move(char move);
+		bool remove(string j);
+		
+};
+
+class House: public OhRats{
+	private:
+		string house_bag[6];
+	public:
+		House(){
+			for(int i=0;i<6;i++){
+			house_bag[i]=colors[i];
+			}
+		}
+		int getCashH() {return cash;}
+		int cash = 0;
+};
+
+class Player: public OhRats{
+	private:
+		string player_bag[6];
+  public:
+		Player(){
+			for(int i=0;i<6;i++){
+			player_bag[i]=colors[i];
+			}
+		}
+		int getCashP() {return cash;}
+		int cash = 0;
+};
+
+int main(){
+	char house_move, player_move;			//defines input variables
+	srand(time(NULL));						//function for the random command
+	House *in_H = new House();				//house subclass bag
+	Player *in_P = new Player();			//player subclass bag
+	
+	int payout = 1;
+	
+	int count = 0;							//variable to see how many times the function ran
+	while((in_H->winner()==false)&&(in_P->winner()==false)){		//continous until a winner comes about
+		count++;			//incrementing every time the loop goes through
+		cout<<"Move #"<<count<<endl;		//Print out of the turn number
+		cout<<"HOUSE MOVE:Press 's' to spin: ";		//Asks for the HOUSE to make a move				
+		cin>>house_move;				//HOUSE INPUT
+		in_H->Move(house_move);
+		if (in_H->winner()==true){		//checks if house won
+			cout<<"HOUSE WON"<<endl;
+			in_H->cash = in_H->cash + payout;		//cash function 
+		}
+		
+		cout<<"PLAYER MOVE:Press 's' to spin: ";
+		cin>>player_move;		//player move
+		in_P->Move(player_move);	
+		if (in_P->winner()==true){		//check if player won
+			cout<<"PLAYER WON"<<endl;
+			in_P->cash = in_P->cash + payout;		//cash function
+		}
+		cout<<endl;
+		//payout winner
+		if((in_H->winner() ==  true) || (in_P->winner() == true)) {
+		cout << "Players cash: $" << in_P->getCashP() << endl;
+		cout << endl;
+		cout << "House's cash: $" << in_H->getCashH() << endl;
+		}
+	}
+  
+  return 0;
+}
+
+	OhRats::OhRats(){
+	}
+	
+void OhRats::Move(char move){		//function to see if a move was made
+  if (move=='s'){
+		string j="";
+		j = randomColor();
+		remove(j);
+  }
+  else
+		cout<<"Wrong Input"<<endl;
+}
+
+
+string OhRats::randomColor(){
+  int randomNumber = rand() % 6;	//gets a random number
+  switch (randomNumber){			//depending on the number it calls a color
+    case 0:
+      return "red";
+      break;
+    case 1:
+      return "green";
+      break;
+    case 2:
+      return "yellow";
+      break;
+    case 3:
+      return "orange";
+      break;
+    case 4:
+      return "blue";
+      break;
+	case 5:
+      return "purple";
+      break;
+	default:
+	  return "Oops";
+	  break;	
+  }	  
+}
+
+bool OhRats::remove(string j){		//function to remove a function
+	cout<<"Landed on "<<j<<endl;	
+	if(items<0){	
+		return false;
+	}
+		for(int i=0; i<items; i++){	
+			if(colors[i]==j){			
+			string placeholder;
+				placeholder=colors[i];
+				colors[i]=colors[items-1];
+				colors[items-1]=placeholder;
+				items--;
+				return true;
+				cout<<"Removed: "<<j<<endl;
+			}
+		}
+	cout<<"Oh Rats, I have that one"<<endl;
+	return false;
+}
+
+bool OhRats::winner(){			//function to check if someone won
+	if(items==0){
+		return true;
+	}
+	else{
+	return false;}
+}
+
