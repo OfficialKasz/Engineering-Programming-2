@@ -1,0 +1,36 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+using namespace std;
+
+
+
+bool playGame() {
+		int x = rand() %100000;
+		//cout << x << endl;
+		return (x < 4444);
+}
+
+
+int main() {
+	srand(time(NULL));
+	
+	int numGames;
+	cout << "How many games would you like to play?\n";
+	cin >> numGames;
+
+	int numWins = 0;
+	for (int i=0; i<numGames; i++) {
+		if (playGame()) numWins++;
+		//cout << numWins << endl;
+	}
+	
+	cout << "Player 1 wins " << 100*(float)numWins/(float)numGames;
+	cout << "% of the time" << endl;
+		
+}
+
+
+
